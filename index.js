@@ -33,24 +33,28 @@ function displayVideos (videos){
     const videoContainer = document.getElementById('video-container')
     // console.log(videos)
     for(const video of videos){
-        // console.log(video)
+        console.log(video)
         const div = document.createElement('div');
         div.classList = 'card';
         div.innerHTML = `
             <figure>
-                <img class = "h-[200px]"
+                <img class = "h-[200px] w-full object-cover"
                 src="${video.thumbnail}" />
             </figure>
-            <div class="card-body">
-                <h2 class="card-title">
-                Shoes!
-                <div class="badge badge-secondary">NEW</div>
-                </h2>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
-                <div class="card-actions justify-end">
-                <div class="badge badge-outline">Fashion</div>
-                <div class="badge badge-outline">Products</div>
-                </div>
+            <div class="px-0 py-2 flex gap-2 items-center">
+                <div><img class = "h-10 w-10 rounded-full object-cover" src="${video.authors[0].profile_picture}" alt=""></div>
+        <div>
+            <h1 class="font-bold">${video.title}</h1>
+            <div class = "flex justify-between items-center">
+                <p>
+                ${video.authors[0].profile_name}
+                </p>
+                <img class="h-5 w-5" src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png" alt="">
+            </div>
+            <div>
+                <p class="text-gray-500 font-bold">${video.others.views}</p>
+            </div>
+        </div>
             </div>
         `
         videoContainer.appendChild(div)

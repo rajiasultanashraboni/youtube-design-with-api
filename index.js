@@ -22,13 +22,32 @@ function getTimeString(time) {
     return result.trim(); 
 }
 
+// remove button section is here 
+
+function removeActiveClass (){
+    const buttons = document.getElementsByClassName('category-button');
+    for(const btn of buttons){
+        btn.classList.remove('active')
+    }
+
+}
+
 
 // display categories when button is clicked 
 
 function buttonClickedCategories (id){
     fetch (`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
     .then(res=>res.json())
-    .then(data=>displayVideos(data.category))
+    .then(data=>{
+        // remove active class 
+        removeActiveClass();
+
+        // add active class 
+        const activeBtn = document.getElementById(`btn-${id}`);
+        console.log(activeBtn);
+        activeBtn.classList.add ('active');
+        displayVideos(data.category);
+    });
 }
 
 
@@ -49,7 +68,7 @@ function displayCategories(categories){
         // console.log(element)
         const button = document.createElement('div');
         button.innerHTML = `
-            <button onclick = "buttonClickedCategories(${element.category_id})" class = 'btn'>${element.category}</button>
+            <button id = "btn-${element.category_id}" onclick = "buttonClickedCategories(${element.category_id})" class = 'btn category-button'>${element.category}</button>
         `
         // button.classList = "btn"
         // button.innerText = `${element.category}`;
@@ -70,6 +89,19 @@ function displayVideos (videos){
     const videoContainer = document.getElementById('video-container')
     videoContainer.innerHTML = ''
     // console.log(videos)
+    if(videos.length ===0){
+        videoContainer.classList.remove("grid")
+        videoContainer.innerHTML = `
+            <div class = "flex flex-col justify-center">
+                <img class='h-[250px] w-[250px] mx-auto' src="./Icon.png" alt="">
+                <p class="text-xl font-bold text-center">no content is here</p>
+            </div>
+        `
+    }
+
+    else{
+        videoContainer.classList.add("grid")
+    }
     for(const video of videos){
         // console.log(video)
         const div = document.createElement('div');
